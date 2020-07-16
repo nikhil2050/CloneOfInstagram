@@ -1,10 +1,13 @@
 Youtube Reference: https://www.youtube.com/watch?v=f7T48W0cwXM
 
 Firebase Setup:
+
 1. Goto Console
 2. Add project 
 3. Project Name: clone-of-instagram-react
+
 4. Configure Google Analytics: NK Projects Analytics >> Create Project
+
 5. Click 'Web' icon 
     Register app nickname: clone-of-instagram-react
     Tick 'Set up Firebase Hosting for this app' >> Register app
@@ -41,4 +44,22 @@ Firebase Setup:
 
         After deploying, view your app at clone-of-instagram-react.web.app
 
-        
+6. Database >> Create database >> Start in TEST MODE
+
+7. Start collection >> Colection ID: "posts"
+    DATABASE has COLLECTIONS
+    COLLECTION has DOCUMENTS
+
+8. Fill :
+    Field=caption;  Type=string;    Value=cleverQazi
+    Field=username;  Type=string;    Value=Wow it works 😊
+    Field=imageUrl;  Type=string;    Value=https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/320px-React-icon.svg.png
+
+9. Project Settings >> Firebase SDK snippet >> Copy "Config"
+
+Library:
+1. Firebase:
+    npm i firebase
+
+2. Material UI:
+    npm install @material-ui/core

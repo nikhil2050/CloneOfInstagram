@@ -4,7 +4,8 @@
 
 .app {
   background-color: #fafafa;
-  height: 100vh;                /* CHECK vh */
+  margin-bottom: 45px;
+    /* height: 100vh;                CHECK vh */
 }
 
 .app__header {

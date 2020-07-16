@@ -1,0 +1,26 @@
+package-lock.json
+clone-of-instagram/node_modules
+
+
+
+# This gitignore is taken from https://github.com/github/gitignore/blob/master/Java.gitignore
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# J2ME files
+.mtj.tmp/
+
+# Package files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
