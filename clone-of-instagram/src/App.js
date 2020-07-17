@@ -118,6 +118,14 @@ function App() {
     })
   }, [user, username])  // If we are using a variable in useEffect, mention here
 
+  const [openLogInModal, setOpenLogInModal] = useState(false);
+
+  const logIn = (event) => {
+    event.preventDefault();
+    auth.signInWithEmailAndPassword(email, password)
+        .catch(error => alert(error.message))
+    setOpenLogInModal(false)
+  }
   return (
     <div className="app">
 
@@ -147,9 +155,31 @@ function App() {
           </div>
         </Modal>
 
+        {/* LOGIN - MODAL WINDOW */}
+        {/* Reference: https://material-ui.com/components/modal/#modal  */}
+        <Modal open={openLogInModal} onClose={() => setOpenLogInModal(false)} >
+          <div style={modalStyle} className={classes.paper}>
+            <form className="app__signup">
+              <center>
+                <img className="app_headerImage" alt=""
+                    src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"/>
+              </center>
+
+              <Input type="text" placeholder="email" value={email}
+                  onChange={(e) => setEmail(e.target.value)} />
+              <Input type="password" placeholder="password" value={password}
+                  onChange={(e) => setPassword(e.target.value)} />
+              <Button type="submit" onClick={logIn} > Log In </Button>
+            </form>
+          </div>
+        </Modal>
+
         {user
             ? (<Button onClick={() => auth.signOut()}>Log Out</Button>) 
-            : (<Button onClick={() => setModalOpen(true)}>Sign Up</Button>)
+            : (<div className="app__loginContainer" >
+                <Button onClick={() => setModalOpen(true)}>Sign Up</Button>
+                <Button onClick={() => setOpenLogInModal(true)}>Log In</Button>
+              </div>)
         }
         
       </div>
