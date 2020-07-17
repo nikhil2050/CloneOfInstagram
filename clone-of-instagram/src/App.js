@@ -2,8 +2,33 @@ import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Post from './components/Post';
-import {db} from './firebase'
+import {db, auth} from './firebase'
+import {makeStyles} from '@material-ui/core/styles'
+import Modal from '@material-ui/core/Modal'
+import { Button, Input } from '@material-ui/core';
 
+// Reference: https://material-ui.com/components/modal/#modal
+function getModalStyle() {
+  const top = 50 ;
+  const left = 50 ;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+// Reference: https://material-ui.com/components/modal/#modal
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
 
 function App() {
 
@@ -36,15 +61,97 @@ function App() {
     }); 
   }, []) 
 
+  const [modalOpen, setModalOpen] = useState(false);
+
+  {/* Reference: https://material-ui.com/components/modal/#modal  */}
+  const classes = useStyles();
+  const [modalStyle] = useState(getModalStyle);
+
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
+
+  {/* 
+    * Signup - Handler 
+    */}
+  const signUp = (event) => {
+    event.preventDefault();
+
+    // Create User
+    auth.createUserWithEmailAndPassword(email, password)
+        .then((authUser) => {
+          // Populate 'displayname'
+          return authUser.user.updateProfile({
+            displayName: username
+          })
+        })
+        .catch((error) => alert(error.message))
+  }
+
+
+  {/* 
+    * Authentication - Get current User 
+    */}
+  const [user, setUser] = useState(null)
+
+  // Check everytime if user is logged in..
+  useEffect(()=>{
+    auth.onAuthStateChanged((authUser) =>{
+      if(authUser) {    
+        // User has logged in..
+        console.log(authUser)
+        setUser(authUser)   // Cookie tracking. Keeps you logged in 
+
+        if(authUser.displayName) {
+          //don't update
+        } else {
+          // if we just created someone 
+          return authUser.updateProfile({
+            displayName:username
+          })
+        }
+
+      } else {          
+        // User has logged out..
+        setUser(null)
+      }
+    })
+  }, [user, username])  // If we are using a variable in useEffect, mention here
+
   return (
     <div className="app">
 
       {/* Header - Logo Search  Home,Msg,Navigate,Notifications,Profile*/}
       <div className="app__header">
-        <img 
-            className="app_headerImage" 
-            src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
-            alt=""></img>
+        <img className="app_headerImage" alt=""
+            src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"/>
+
+        {/* SIGNUP - MODAL WINDOW */}
+        {/* Reference: https://material-ui.com/components/modal/#modal  */}
+        <Modal open={modalOpen} onClose={() => setModalOpen(false)} >
+          <div style={modalStyle} className={classes.paper}>
+            <form className="app__signup">
+              <center>
+                <img className="app_headerImage" alt=""
+                    src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"/>
+              </center>
+
+              <Input type="text" placeholder="username" value={username}
+                  onChange={(e) => setUsername(e.target.value)} />
+              <Input type="text" placeholder="email" value={email}
+                  onChange={(e) => setEmail(e.target.value)} />
+              <Input type="password" placeholder="password" value={password}
+                  onChange={(e) => setPassword(e.target.value)} />
+              <Button type="submit" onClick={signUp} > Sign Up </Button>
+            </form>
+          </div>
+        </Modal>
+
+        {user
+            ? (<Button onClick={() => auth.signOut()}>Log Out</Button>) 
+            : (<Button onClick={() => setModalOpen(true)}>Sign Up</Button>)
+        }
+        
       </div>
       
       {/* Posts */}
@@ -56,7 +163,6 @@ function App() {
         ))
       }
 
-      {/* Footer */}
     </div>
   );
 }

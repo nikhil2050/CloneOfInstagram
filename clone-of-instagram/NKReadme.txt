@@ -57,6 +57,10 @@ Firebase Setup:
 
 9. Project Settings >> Firebase SDK snippet >> Copy "Config"
 
+Firebase Authentication:
+1. Firebase >> Authentication tab >> Set up sign-in method
+2. Select "Email/Password" >> Enable
+
 Library:
 1. Firebase:
     npm i firebase
