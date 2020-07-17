@@ -195,12 +195,14 @@ function App() {
       {/* Posts */}
       {/* Posts */}
       {/* Posts */}
-      {
-        posts.map(({id, post}) => (
-          <Post key={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>
-        ))
-      }
-
+      <div className="app_posts">
+        {
+          posts.map(({id, post}) => (
+            <Post key={id} authUser={user} 
+                postId={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>
+          ))
+        }
+      </div>
     </div>
   );
 }
