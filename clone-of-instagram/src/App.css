@@ -20,6 +20,10 @@
   justify-content: space-between;
 }
 
+.app__loginToUploadText {
+  text-align: center;
+}
+
 .app_headerImage {
   object-fit: contain;
 }

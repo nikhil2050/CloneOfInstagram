@@ -87,6 +87,7 @@ function App() {
             displayName: username
           })
         })
+        .then(() => setModalOpen(false))
         .catch((error) => alert(error.message))
   }
 
@@ -136,6 +137,10 @@ function App() {
         <img className="app_headerImage" alt=""
             src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"/>
 
+        {
+          user ? (<p>Hello <strong>{user.displayName}</strong>!</p>)
+              : ("")
+        }
         {/* SIGNUP - MODAL WINDOW */}
         {/* Reference: https://material-ui.com/components/modal/#modal  */}
         <Modal open={modalOpen} onClose={() => setModalOpen(false)} >
@@ -189,7 +194,7 @@ function App() {
       {
         user?.displayName
           ? (<ImageUpload username={user.displayName} />)
-          : (<h3>Sorry you need to login to upload</h3>)
+          : (<h3 className="app__loginToUploadText">Please login to upload an image</h3>)
       }
       
       

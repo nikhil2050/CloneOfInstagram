@@ -70,7 +70,7 @@ const ImageUpload = ({username}) => {
             <progress value={progress} max="100" />
 
             {/* Caption input */}
-            <Input type="text" placeholder={username} onChange={handleCaptionInput}  />
+            <Input type="text" placeholder="Caption.." onChange={handleCaptionInput}  />
 
             <Input type="file" onChange={handleFileInput} />
 
