@@ -91,3 +91,6 @@ Library:
 
 2. Material UI:
     npm install @material-ui/core
+
+3. React Instagram Embed (https://www.npmjs.com/package/react-instagram-embed):
+    npm i react-instagram-embed
